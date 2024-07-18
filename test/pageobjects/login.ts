@@ -40,10 +40,10 @@ class Login extends Page {
   }
   get masterPasswordLabel() {
     return $("bit-label=Master password");
-}
+  }
   get masterPasswordInput() {
     return $("#login_input_master-password");
-}
+  }
   get loginWithMasterPasswordButton() {
     return $('button[buttontype="primary"]');
   }
