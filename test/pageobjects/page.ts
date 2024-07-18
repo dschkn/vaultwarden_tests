@@ -6,7 +6,9 @@ export default class Page {
     await this.logo.waitForDisplayed({ timeout: 10000 });
     await this.createAccountButton.waitForDisplayed({ timeout: 10000 });
   }*/
-  get navigationBar() {
-    return $("nav.navbar.navbar-expand.navbar-dark");
-  }
+  get sidebarNavigation() {
+    return $("aside.tw-sticky.tw-inset-y-0.tw-h-screen.tw-w-60.tw-overflow-auto.tw-bg-background-alt3 > nav[slot='sidebar']");
+}
+
+  
 }

@@ -12,6 +12,8 @@
   "scripts": {
     "all_tests": "wdio run ./wdio.conf.ts"
   },
+
+  
   "dependencies": {
     "@types/chai": "^4.3.16",
     "chai": "^5.1.1",
