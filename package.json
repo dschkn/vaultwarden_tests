@@ -12,10 +12,9 @@
   "scripts": {
     "all_tests": "wdio run ./wdio.conf.ts"
   },
-
-  
   "dependencies": {
     "@types/chai": "^4.3.16",
+    "bowser": "^2.11.0",
     "chai": "^5.1.1",
     "dateformat": "^5.0.3"
   }

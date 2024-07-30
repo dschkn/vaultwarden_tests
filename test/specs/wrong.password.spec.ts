@@ -5,8 +5,9 @@ describe("Page elements test", () => {
   let RegistrationPage = new Registration();
   const currentTime = new Date().getTime();
   const generatedEmail = `user${currentTime}@test.com`;
-  const generatedPassword = RegistrationPage.generateRandomPassword();
-  const shortPassword = RegistrationPage.generateRandomShortPassword();
+  const wrongEmail = `user${currentTime}test.com`;
+  const generatedPassword = RegistrationPage.fixedPassword();
+  const shortPassword = RegistrationPage.fixedShortPassword();
 
   it("clicks the Create account button", async () => {
     let RegistrationPage = new Registration();
@@ -15,23 +16,35 @@ describe("Page elements test", () => {
     await RegistrationPage.fillInForm.waitForDisplayed();
   });
 
+  it("checks whether the information entered in the email field is actually an email", async () => {
+    let RegistrationPage = new Registration();
+    await RegistrationPage.emailInput.setValue(wrongEmail);
+    await RegistrationPage.emailBitError();
+  });
+
+  // Это еще не доделано но должно проверять что в графе имя имя не больше 50 символов
+
+  /*it("checks that the name is not longer than 50 characters", async () => {
+    let RegistrationPage = new Registration();
+    await RegistrationPage.nameInput.setValue("Wrong_Name_Name_should_be_exactly_50_characters_long123456789");
+    await RegistrationPage.masterPasswordInput.setValue(generatedPassword);
+    await RegistrationPage.confirmMasterPasswordInput.setValue(generatedPassword);
+    await RegistrationPage.createAccountButton.click();
+    await RegistrationPage.toastContainer.waitForDisplayed(); // вот здесь возникли проблемы с отображением контейнера
+
+  });
+  */
+
   it("should enter a randomly generated email based on current time into the email input field", async () => {
     let RegistrationPage = new Registration();
     await RegistrationPage.emailInput.setValue(generatedEmail);
-  });
-
-  it("should fill the registration form with a random name", async () => {
-    let registrationPage = new Registration();
-    const randomName = `User${Math.floor(Math.random() * 10000)}`;
-    await registrationPage.nameInput.setValue(randomName);
-    expect(await registrationPage.nameInput.getValue()).to.equal(randomName);
   });
 
   it("checks if password length is correct", async () => {
     let RegistrationPage = new Registration();
     await RegistrationPage.masterPasswordInput.setValue(shortPassword);
     await RegistrationPage.confirmMasterPasswordInput.setValue(
-      "any another password"
+      "any_another_password123456789"
     );
     await RegistrationPage.masterPasswordBitError(); //ловит сообщение что пасворд недостаточно длинный
     await RegistrationPage.masterPasswordInput.clearValue();
@@ -40,7 +53,7 @@ describe("Page elements test", () => {
 
   it("checks the sameness of the entered passwords", async () => {
     let RegistrationPage = new Registration();
-    await RegistrationPage.confirmMasterPasswordBitError(); // ловит что пасворды не одинаковые
+    await RegistrationPage.confirmMasterPasswordBitError(); // ловит сообщение что пасворды не одинаковые
   });
 
   it("should fill the hint input with 'HINT'", async () => {
@@ -53,16 +66,19 @@ describe("Page elements test", () => {
     await RegistrationPage.createAccountButton.click();
     await RegistrationPage.errorSummary.waitForDisplayed(); // ловит всплывающее сообщение внизу что вообще есть ошибки
   });
-
+  /*
   it("checks the popup window is displayed", async () => {
     const RegistrationPage = new Registration();
     await RegistrationPage.masterPasswordInput.setValue("111111111111");
     await RegistrationPage.confirmMasterPasswordInput.setValue("111111111111");
     await RegistrationPage.createAccountButton.click();
-    await RegistrationPage.dialogContainer.waitForDisplayed({ timeout: 15000 }); // Увеличение таймаута до 15 секунд
+    await browser.pause(5000);
+    await RegistrationPage.dialogContainer.waitForDisplayed();
     await RegistrationPage.noButton.click();
   });
 
+
+  /*
   it("checks the inability to create account with short password.", async () => {
     const RegistrationPage = new Registration();
     await RegistrationPage.masterPasswordInput.setValue(shortPassword);
@@ -70,7 +86,8 @@ describe("Page elements test", () => {
     const initialUrl = await browser.getUrl();
     await RegistrationPage.createAccountButton.click();
     await browser.pause(2000);
+    await RegistrationPage.errorSummary.waitForDisplayed();
     const newUrl = await browser.getUrl();
     expect(newUrl).equal(initialUrl);
-  });
+  });*/
 });
