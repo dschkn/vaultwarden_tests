@@ -31,11 +31,5 @@ describe("Page elements test", () => {
   });
 });
 
-
-
-
-
-
 // webdriver@test.com
 // webdriver_test
-
