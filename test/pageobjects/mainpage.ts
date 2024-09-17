@@ -153,6 +153,9 @@ class MainPage extends Page {
     const rowXPath = `//tr[td[3]//button[@title="${itemTitle}"]]`;
     return $(rowXPath);
   }
+  get passwordManagerLink() {
+    return $('a[routerlink="."][title="Password Manager"][aria-label="Password Manager"]');
+}
 }
 
 export default MainPage;

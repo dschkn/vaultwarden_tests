@@ -33,7 +33,7 @@ describe("Page elements test", () => {
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.click();
     await mainPage.newItemLoginNameInput.waitForDisplayed();
-    await mainPage.newItemLoginNameInput.setValue(generatedName); // здесь
+    await mainPage.newItemLoginNameInput.setValue(generatedName);
     await mainPage.loginUsernameInput.waitForDisplayed();
     await mainPage.loginUsernameInput.setValue("Name");
     await mainPage.loginPasswordInput.waitForDisplayed();
@@ -81,7 +81,8 @@ describe("Page elements test", () => {
     await yesButton.click();
     await mainPage.toastContainer.waitForDisplayed();
     const toasterTextAfter = await mainPage.toastContainer.getText();
-    expect(toasterTextAfter).to.include("Item sent to bin"); //важно!
+    expect(toasterTextAfter).to.include("Item sent to bin");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
     await Helpers.verifyElementNotPresent(browser, itemSelector);
     await mainPage.binFilterButton.click();
     await Helpers.scrollAndSearch(browser, itemSelector);
@@ -95,12 +96,14 @@ describe("Page elements test", () => {
     await mainPage.toastContainer.waitForDisplayed();
     const toasterTextAfter2 = await mainPage.toastContainer.getText();
     expect(toasterTextAfter2).to.include("Item permanently deleted");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
     await Helpers.verifyElementNotPresent(browser, itemSelector);
+
+    await mainPage.passwordManagerLink.click();
   });
 
-  /*it("creates a new item of type card", async () => {
+  it("creates a new item of type card", async () => {
     let mainPage = new MainPage();
-    
     await mainPage.newItemDropdownButton.waitForClickable();
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.waitForClickable();
@@ -108,7 +111,6 @@ describe("Page elements test", () => {
     await mainPage.typeSelect.selectByIndex(1);
     await mainPage.newItemLoginNameInput.waitForDisplayed();
     await mainPage.newItemLoginNameInput.setValue(generatedCardName); // здесь
-    await browser.pause(4000);
     await mainPage.cardCardholderNameInput.waitForDisplayed();
     await mainPage.cardCardholderNameInput.setValue("Steve Jobs");
     await mainPage.cardNumberInput.waitForDisplayed();
@@ -128,19 +130,53 @@ describe("Page elements test", () => {
     await mainPage.toastContainer.waitForDisplayed();
     const toasterText = await mainPage.toastContainer.getText();
     expect(toasterText).to.include("Item added");
+    const itemSelector = $(`button[title="Edit item - ${generatedCardName}"]`);
+    await Helpers.scrollAndSearch(browser, itemSelector);
+    const itemText = await itemSelector.getText();
+    expect(itemText).to.include(generatedCardName);
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    const itemTitle = `Edit item - ${generatedCardName}`;
+    const rowElement = mainPage.rowElementByTitle(itemTitle);
+    await rowElement.waitForDisplayed();
+    const buttonXPath = ".//td[5]//button";
+    const buttonElement = await rowElement.$(buttonXPath);
+    await buttonElement.waitForDisplayed();
+    await buttonElement.click();
+    const deleteButtonXPath = `//button[@role="menuitem"]//span[contains(@class, 'tw-text-danger')]//i[contains(@class, 'bwi-trash')]`;
+    const deleteButton = await browser.$(deleteButtonXPath);
+    await deleteButton.waitForDisplayed();
+    await deleteButton.click();
+    const confirmDialogSelector = "div.tw-my-4";
+    const yesButtonSelector = 'button[type="submit"][buttontype="primary"]';
+    const confirmDialog = await browser.$(confirmDialogSelector);
+    await confirmDialog.isDisplayed();
+    const yesButton = await browser.$(yesButtonSelector);
+    await yesButton.isDisplayed();
+    await yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterTextAfter = await mainPage.toastContainer.getText();
+    expect(toasterTextAfter).to.include("Item sent to bin");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, itemSelector);
+    await mainPage.binFilterButton.click();
+    await Helpers.scrollAndSearch(browser, itemSelector);
+    await buttonElement.waitForDisplayed();
+    await buttonElement.click();
+    await deleteButton.waitForDisplayed();
+    await deleteButton.click();
+    await confirmDialog.isDisplayed();
+    await yesButton.isDisplayed();
+    await yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterTextAfter2 = await mainPage.toastContainer.getText();
+    expect(toasterTextAfter2).to.include("Item permanently deleted");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, itemSelector);
+    await mainPage.passwordManagerLink.click();
   });
 
   it("creates a new item of type Identity", async () => {
     let mainPage = new MainPage();
-    await browser.waitUntil(
-      async () =>
-        !(await browser.$('p[data-testid="toast-message"]').isDisplayed()),
-      {
-        timeout: 10000,
-        timeoutMsg: "Toast message did not disappear before clicking",
-      }
-    );
-    await browser.pause(2000);
     await mainPage.newItemDropdownButton.waitForClickable();
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.waitForClickable();
@@ -148,7 +184,6 @@ describe("Page elements test", () => {
     await mainPage.typeSelect.selectByIndex(2);
     await mainPage.identityNameInput.waitForDisplayed();
     await mainPage.identityNameInput.setValue(generatedIdentityName);
-    await browser.pause(4000);
     await mainPage.idTitleSelect.waitForDisplayed();
     await mainPage.idTitleSelect.selectByIndex(1);
     await mainPage.firstNameInput.waitForDisplayed();
@@ -183,35 +218,117 @@ describe("Page elements test", () => {
     await mainPage.toastContainer.waitForDisplayed();
     const toasterText = await mainPage.toastContainer.getText();
     expect(toasterText).to.include("Item added");
+    const itemSelector = $(
+      `button[title="Edit item - ${generatedIdentityName}"]`
+    );
+    await Helpers.scrollAndSearch(browser, itemSelector);
+    const itemText = await itemSelector.getText();
+    expect(itemText).to.include(generatedIdentityName);
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    const itemTitle = `Edit item - ${generatedIdentityName}`;
+    const rowElement = mainPage.rowElementByTitle(itemTitle);
+    await rowElement.waitForDisplayed();
+    const buttonXPath = ".//td[5]//button";
+    const buttonElement = await rowElement.$(buttonXPath);
+    await buttonElement.waitForDisplayed();
+    await buttonElement.click();
+    const deleteButtonXPath = `//button[@role="menuitem"]//span[contains(@class, 'tw-text-danger')]//i[contains(@class, 'bwi-trash')]`;
+    const deleteButton = await browser.$(deleteButtonXPath);
+    await deleteButton.waitForDisplayed();
+    await deleteButton.click();
+    const confirmDialogSelector = "div.tw-my-4";
+    const yesButtonSelector = 'button[type="submit"][buttontype="primary"]';
+    const confirmDialog = await browser.$(confirmDialogSelector);
+    await confirmDialog.isDisplayed();
+    const yesButton = await browser.$(yesButtonSelector);
+    await yesButton.isDisplayed();
+    await yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterTextAfter = await mainPage.toastContainer.getText();
+    expect(toasterTextAfter).to.include("Item sent to bin");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, itemSelector);
+    await mainPage.binFilterButton.click();
+    await Helpers.scrollAndSearch(browser, itemSelector);
+    await buttonElement.waitForDisplayed();
+    await buttonElement.click();
+    await deleteButton.waitForDisplayed();
+    await deleteButton.click();
+    await confirmDialog.isDisplayed();
+    await yesButton.isDisplayed();
+    await yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterTextAfter2 = await mainPage.toastContainer.getText();
+    expect(toasterTextAfter2).to.include("Item permanently deleted");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, itemSelector);
+    await mainPage.passwordManagerLink.click();
   });
 
   it("creates a new item of type Secure note", async () => {
     let mainPage = new MainPage();
-    await browser.waitUntil(
-      async () => !(await mainPage.toastContainer.isDisplayed()), // Проверка невидимости элемента
-      {
-        timeout: 5000,
-        timeoutMsg: "Toast message did not disappear before clicking",
-      }
-    );
     await mainPage.newItemDropdownButton.waitForClickable();
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.click();
     await mainPage.typeSelect.selectByIndex(3);
     await mainPage.secureNoteNameInput.waitForDisplayed();
     await mainPage.secureNoteNameInput.setValue(generatedSecureNote); //
-    await browser.pause(4000);
     await mainPage.notesTextarea.waitForDisplayed();
     await mainPage.notesTextarea.setValue("Notes");
     await mainPage.saveButton.click();
     await mainPage.toastContainer.waitForDisplayed();
     const toasterText = await mainPage.toastContainer.getText();
     expect(toasterText).to.include("Item added");
-
-    await browser.pause(15000);
+    const itemSelector = $(
+      `button[title="Edit item - ${generatedSecureNote}"]`
+    );
+    await Helpers.scrollAndSearch(browser, itemSelector);
+    const itemText = await itemSelector.getText();
+    expect(itemText).to.include(generatedSecureNote);
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    const itemTitle = `Edit item - ${generatedSecureNote}`;
+    const rowElement = mainPage.rowElementByTitle(itemTitle);
+    await rowElement.waitForDisplayed();
+    const buttonXPath = ".//td[5]//button";
+    const buttonElement = await rowElement.$(buttonXPath);
+    await buttonElement.waitForDisplayed();
+    await buttonElement.click();
+    const deleteButtonXPath = `//button[@role="menuitem"]//span[contains(@class, 'tw-text-danger')]//i[contains(@class, 'bwi-trash')]`;
+    const deleteButton = await browser.$(deleteButtonXPath);
+    await deleteButton.waitForDisplayed();
+    await deleteButton.click();
+    const confirmDialogSelector = "div.tw-my-4";
+    const yesButtonSelector = 'button[type="submit"][buttontype="primary"]';
+    const confirmDialog = await browser.$(confirmDialogSelector);
+    await confirmDialog.isDisplayed();
+    const yesButton = await browser.$(yesButtonSelector);
+    await yesButton.isDisplayed();
+    await yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterTextAfter = await mainPage.toastContainer.getText();
+    expect(toasterTextAfter).to.include("Item sent to bin");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, itemSelector);
+    await mainPage.binFilterButton.click();
+    await Helpers.scrollAndSearch(browser, itemSelector);
+    await buttonElement.waitForDisplayed();
+    await buttonElement.click();
+    await deleteButton.waitForDisplayed();
+    await deleteButton.click();
+    await confirmDialog.isDisplayed();
+    await yesButton.isDisplayed();
+    await yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterTextAfter2 = await mainPage.toastContainer.getText();
+    expect(toasterTextAfter2).to.include("Item permanently deleted");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, itemSelector);
+    await mainPage.passwordManagerLink.click();
+    await mainPage.newItemDropdownButton.isClickable();
+    await mainPage.newItemDropdownButton.click();
   });
 
-  /*it("creates a new organization", async () => {
+  /* it("creates a new organization", async () => {
     let mainPage = new MainPage();
     await mainPage.newOrganisationLink.click();
     await mainPage.newOrganisationTitle.waitForDisplayed();
