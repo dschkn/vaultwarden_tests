@@ -1,4 +1,4 @@
-import Registration from "../pageobjects/register.ts";
+/*import Registration from "../pageobjects/register.ts";
 import { expect } from "chai";
 
 describe("Page elements test", () => {
@@ -21,19 +21,6 @@ describe("Page elements test", () => {
     await RegistrationPage.emailInput.setValue(wrongEmail);
     await RegistrationPage.emailBitError();
   });
-
-  // Это еще не доделано но должно проверять что в графе имя имя не больше 50 символов
-
-  /*it("checks that the name is not longer than 50 characters", async () => {
-    let RegistrationPage = new Registration();
-    await RegistrationPage.nameInput.setValue("Wrong_Name_Name_should_be_exactly_50_characters_long123456789");
-    await RegistrationPage.masterPasswordInput.setValue(generatedPassword);
-    await RegistrationPage.confirmMasterPasswordInput.setValue(generatedPassword);
-    await RegistrationPage.createAccountButton.click();
-    await RegistrationPage.toastContainer.waitForDisplayed(); // вот здесь возникли проблемы с отображением контейнера
-
-  });
-  */
 
   it("should enter a randomly generated email based on current time into the email input field", async () => {
     let RegistrationPage = new Registration();

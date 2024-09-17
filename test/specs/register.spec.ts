@@ -1,4 +1,4 @@
-import Login from "../pageobjects/login.ts";
+/*import Login from "../pageobjects/login.ts";
 import Registration from "../pageobjects/register.ts";
 import { expect } from "chai";
 

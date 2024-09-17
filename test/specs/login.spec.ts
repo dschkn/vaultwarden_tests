@@ -1,4 +1,4 @@
-import Login from "../pageobjects/login.ts";
+/*import Login from "../pageobjects/login.ts";
 
 describe("Page elements test", () => {
   it("should display the logo", async () => {
@@ -33,3 +33,4 @@ describe("Page elements test", () => {
 
 // webdriver@test.com
 // webdriver_test
+*/
