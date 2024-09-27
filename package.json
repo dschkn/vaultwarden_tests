@@ -2,18 +2,24 @@
   "name": "vaultwarden_tests",
   "type": "module",
   "devDependencies": {
-    "@wdio/cli": "^8.39.0",
+    "@types/webdriverio": "^5.0.0",
+    "@wdio/cli": "^8.40.5",
     "@wdio/local-runner": "^8.39.0",
     "@wdio/mocha-framework": "^8.39.0",
     "@wdio/spec-reporter": "^8.39.0",
+    "@wdio/types": "^9.0.8",
+    "expect-webdriverio": "^5.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "webdriverio": "^9.0.9"
   },
   "scripts": {
     "all_tests": "wdio run ./wdio.conf.ts"
   },
   "dependencies": {
     "@types/chai": "^4.3.16",
+    "@types/node": "^22.5.5",
+    "bowser": "^2.11.0",
     "chai": "^5.1.1",
     "dateformat": "^5.0.3"
   }
