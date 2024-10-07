@@ -154,8 +154,77 @@ class MainPage extends Page {
     return $(rowXPath);
   }
   get passwordManagerLink() {
-    return $('a[routerlink="."][title="Password Manager"][aria-label="Password Manager"]');
-}
+    return $(
+      'a[routerlink="."][title="Password Manager"][aria-label="Password Manager"]'
+    );
+  }
+  // геттеры Folder
+  get folderButton() {
+    return $("button[role='menuitem']:has(i.bwi-folder)");
+  }
+  get header() {
+    return $(
+      "header.tw-flex.tw-justify-between.tw-items-center.tw-gap-4.tw-border-0.tw-border-b.tw-border-solid.tw-border-secondary-300.tw-p-4.ng-tns-c1767497433-4"
+    );
+  }
+  get folderNameInput() {
+    return $("[formcontrolname='name']");
+  }
+  get folderSaveButton() {
+    return $("button[bitbutton][buttontype='primary'][type='submit']");
+  }
+  getFilterButton(folderName) {
+    return $(
+      `button.filter-button[title="Filter: ${folderName}"][aria-label="Filter: ${folderName}"]`
+    );
+  }
+  async getEditButtonForFolder(folderName) {
+    const editButton = await $(
+      `//span[contains(@class, 'filter-buttons')]//button[@title="Filter: ${folderName}"]/following-sibling::span/button[@class="edit-button ng-star-inserted"]`
+    );
+    await editButton.scrollIntoView();
+    await editButton.waitForDisplayed({ timeout: 10000 });
+    return editButton;
+  }
+  get editHeader() {
+    return $(
+      "header.tw-flex.tw-justify-between.tw-items-center.tw-gap-4.tw-border-0.tw-border-b.tw-border-solid.tw-border-secondary-300.tw-p-4.ng-tns-c1767497433-27"
+    );
+  }
+  get deleteButton() {
+    return $(
+      'button[buttontype="danger"][biticonbutton="bwi-trash"][title="Delete"][aria-label="Delete"]'
+    );
+  }
+  get yesButton() {
+    return $(
+      '//button[@type="submit" and @buttontype="primary" and contains(., "Yes")]'
+    );
+  }
+
+  //collections
+  get collectionButton() {
+    return $("button[role='menuitem']:has(i.bwi-collection)");
+  }
+  get dialogHeader() {
+    return $(
+      "header.tw-flex.tw-justify-between.tw-items-center.tw-gap-4.tw-border-0.tw-border-b.tw-border-solid.tw-border-secondary-300.tw-p-4.ng-tns-c1767497433-130"
+    );
+  }
+  get newCollectionSaveButton() {
+    return $("button[bitbutton][buttontype='primary'][type='submit']");
+  }
+  get errorMessage() {
+    return $("bit-error[aria-live='assertive']");
+  }
+  get collectionsNameInput() {
+    return $("[formcontrolname='name'][required][aria-invalid='true']");
+  }
+  getFilterButton(folderName) {
+    return $(
+      `button.filter-button[title="Filter: ${folderName}"][aria-label="Filter: ${folderName}"]`
+    );
+  }
 }
 
 export default MainPage;

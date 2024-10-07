@@ -3,6 +3,7 @@ import Login from "../pageobjects/login.ts";
 import MainPage from "../pageobjects/mainpage.ts";
 import { expect } from "chai";
 import { Helpers } from "../tools/helpers.ts";
+import { waitForClickable } from "webdriverio/build/commands/element";
 
 describe("Page elements test", () => {
   const randomNumber: number = Math.floor(Math.random() * 1000);
@@ -12,6 +13,8 @@ describe("Page elements test", () => {
   const generatedCardName = `CardName_${Date.now()}`; //
   const generatedIdentityName = `Identity_${Date.now()}`; //
   const generatedSecureNote = `Secure_note_${Date.now()}`; //
+  const generatedFolderName = `Folder_${Date.now()}`; //
+  const collectionName = `Collection_${Date.now() % 10000}`;
 
   it("log in with a test account", async () => {
     let RegistrationPage = new Registration();
@@ -56,8 +59,10 @@ describe("Page elements test", () => {
     await mainPage.toastContainer.waitForDisplayed();
     const toasterText = await mainPage.toastContainer.getText();
     expect(toasterText).to.include("Item added");
+
     const itemSelector = $(`button[title="Edit item - ${generatedName}"]`);
     await Helpers.scrollAndSearch(browser, itemSelector);
+
     const itemText = await itemSelector.getText();
     expect(itemText).to.include(generatedName);
     await Helpers.waitForToastToDisappear(mainPage.toastContainer);
@@ -98,16 +103,17 @@ describe("Page elements test", () => {
     expect(toasterTextAfter2).to.include("Item permanently deleted");
     await Helpers.waitForToastToDisappear(mainPage.toastContainer);
     await Helpers.verifyElementNotPresent(browser, itemSelector);
-
     await mainPage.passwordManagerLink.click();
   });
 
   it("creates a new item of type card", async () => {
     let mainPage = new MainPage();
+
     await mainPage.newItemDropdownButton.waitForClickable();
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.waitForClickable();
     await mainPage.itemButton.click();
+    await mainPage.typeSelect.waitForClickable();
     await mainPage.typeSelect.selectByIndex(1);
     await mainPage.newItemLoginNameInput.waitForDisplayed();
     await mainPage.newItemLoginNameInput.setValue(generatedCardName); // здесь
@@ -173,6 +179,7 @@ describe("Page elements test", () => {
     await Helpers.waitForToastToDisappear(mainPage.toastContainer);
     await Helpers.verifyElementNotPresent(browser, itemSelector);
     await mainPage.passwordManagerLink.click();
+    await browser.pause(1000);
   });
 
   it("creates a new item of type Identity", async () => {
@@ -181,6 +188,7 @@ describe("Page elements test", () => {
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.waitForClickable();
     await mainPage.itemButton.click();
+    await mainPage.typeSelect.waitForClickable();
     await mainPage.typeSelect.selectByIndex(2);
     await mainPage.identityNameInput.waitForDisplayed();
     await mainPage.identityNameInput.setValue(generatedIdentityName);
@@ -270,6 +278,7 @@ describe("Page elements test", () => {
     await mainPage.newItemDropdownButton.waitForClickable();
     await mainPage.newItemDropdownButton.click();
     await mainPage.itemButton.click();
+    await mainPage.typeSelect.waitForClickable();
     await mainPage.typeSelect.selectByIndex(3);
     await mainPage.secureNoteNameInput.waitForDisplayed();
     await mainPage.secureNoteNameInput.setValue(generatedSecureNote); //
@@ -328,15 +337,63 @@ describe("Page elements test", () => {
     await mainPage.newItemDropdownButton.click();
   });
 
-  /* it("creates a new organization", async () => {
+  it("creates a new folder", async () => {
     let mainPage = new MainPage();
-    await mainPage.newOrganisationLink.click();
-    await mainPage.newOrganisationTitle.waitForDisplayed();
-    await mainPage.nameInputAlternative.setValue(generatedOrganisationName);
-    await mainPage.submitButton.click();
-    await browser.pause(7000);
-    // здесб должна быть проверка что новая организация отобразилась
-    //Как сделать так чтобы он находил элемент Organisation756 по сгенерированному имени?
+    await mainPage.newItemDropdownButton.waitForClickable();
+    await mainPage.newItemDropdownButton.click();
+    await mainPage.folderButton.waitForClickable();
+    await mainPage.folderButton.click();
+    await mainPage.header.isDisplayed();
+    await mainPage.folderNameInput.isDisplayed();
+    await mainPage.folderNameInput.setValue(generatedFolderName);
+    await mainPage.folderSaveButton.isDisplayed();
+    await mainPage.folderSaveButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterText = await mainPage.toastContainer.getText();
+    expect(toasterText).to.include("Folder added");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    const filterButton = mainPage.getFilterButton(generatedFolderName);
+    await Helpers.scrollAndSearch(browser, filterButton);
+    await filterButton.click();
+    const editButton = await mainPage.getEditButtonForFolder(
+      generatedFolderName
+    );
+    await editButton.click();
+    await mainPage.editHeader.isDisplayed();
+    await mainPage.deleteButton.waitForClickable();
+    await mainPage.deleteButton.click();
+    await mainPage.yesButton.waitForClickable();
+    await mainPage.yesButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const newtoasterText = await mainPage.toastContainer.getText();
+    expect(newtoasterText).to.include("Folder deleted");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    await Helpers.verifyElementNotPresent(browser, filterButton);
   });
-  */
+
+  it("creates a new collection", async () => {
+    let mainPage = new MainPage();
+    await mainPage.newItemDropdownButton.waitForClickable();
+    await mainPage.newItemDropdownButton.click();
+    await mainPage.collectionButton.waitForClickable();
+    await mainPage.collectionButton.click();
+    await mainPage.dialogHeader.isDisplayed();
+    await browser.pause(5000);
+    await mainPage.newCollectionSaveButton.isDisplayed();
+    await mainPage.newCollectionSaveButton.click();
+    await mainPage.errorMessage.isDisplayed();
+    const errorMessage = await mainPage.errorMessage.getText();
+    expect(errorMessage).to.include("Input is required.");
+    await mainPage.collectionsNameInput.waitForClickable();
+    await mainPage.collectionsNameInput.setValue(collectionName);
+    await mainPage.newCollectionSaveButton.isDisplayed();
+    await mainPage.newCollectionSaveButton.click();
+    await mainPage.toastContainer.waitForDisplayed();
+    const toasterText = await mainPage.toastContainer.getText();
+    expect(toasterText).to.include("Created collection");
+    await Helpers.waitForToastToDisappear(mainPage.toastContainer);
+    const collection = mainPage.getFilterButton(collectionName);
+    await Helpers.scrollAndSearch(browser, collection);
+    await browser.pause(5000);
+  });
 });

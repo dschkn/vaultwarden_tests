@@ -1,4 +1,5 @@
 import { Browser } from "webdriverio";
+import { ChainablePromiseElement } from "webdriverio";
 
 export class Helpers {
   static async scrollAndSearch(
@@ -21,23 +22,20 @@ export class Helpers {
       itemDisplayed = await itemSelector.isDisplayed();
     }
   }
+
   static async waitForToastToDisappear(
-    toastMessage: ChainablePromiseElement,
+    toastMessage: ChainablePromiseElement, 
     timeout: number = 10000
   ): Promise<void> {
     try {
-      // Проверяем видимость элемента
       if (await toastMessage.isDisplayed()) {
         console.log("Waiting for toast message to disappear...");
-
-        // Используем waitUntil для ожидания, что элемент станет невидимым
+  
         await browser.waitUntil(
           async () => {
             try {
-              // Если элемент больше не отображается, возвращаем true
               return !(await toastMessage.isDisplayed());
             } catch (error) {
-              // Если элемент больше не существует, это тоже считается исчезновением
               return true;
             }
           },
@@ -46,7 +44,7 @@ export class Helpers {
             timeoutMsg: "Toast message did not disappear in time",
           }
         );
-
+  
         console.log("Toast message disappeared");
       }
     } catch (error) {
@@ -57,7 +55,6 @@ export class Helpers {
       throw error;
     }
   }
-
   static async verifyElementNotPresent(
     browser: Browser,
     itemSelector: ChainablePromiseElement
