@@ -2,19 +2,31 @@
   "name": "vaultwarden_tests",
   "type": "module",
   "devDependencies": {
-    "@wdio/cli": "^8.39.0",
-    "@wdio/local-runner": "^8.39.0",
-    "@wdio/mocha-framework": "^8.39.0",
-    "@wdio/spec-reporter": "^8.39.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "@types/webdriverio": "5.0.0",
+    "@wdio/cli": "8.40.5",
+    "@wdio/devtools-service": "8.40.2",
+    "@wdio/local-runner": "9.1.2",
+    "@wdio/mocha-framework": "9.1.2",
+    "@wdio/spec-reporter": "9.1.2",
+    "@wdio/types": "9.0.8",
+    "@wdio/visual-service": "6.1.0",
+    "chromedriver": "129.0.2",
+    "expect-webdriverio": "5.0.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.5.2",
+    "wdio-chromedriver-service": "8.1.1",
+    "wdio-wait-for": "3.0.11",
+    "webdriverio": "9.1.2"
   },
   "scripts": {
-    "all_tests": "wdio run ./wdio.conf.ts"
+    "all_tests": "wdio run ./wdio.conf.ts",
+    "wdio": "wdio run ./wdio.conf.ts"
   },
   "dependencies": {
-    "@types/chai": "^4.3.16",
-    "chai": "^5.1.1",
-    "dateformat": "^5.0.3"
+    "@types/chai": "4.3.16",
+    "@types/node": "22.5.5",
+    "bowser": "2.11.0",
+    "chai": "5.1.1",
+    "dateformat": "5.0.3"
   }
 }
