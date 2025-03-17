@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","28346","creates a new item of type Login","","Mon Mar 03 15:22:44 CET 2025","passed","Mon Mar 03 15:23:12 CET 2025","","Page elements test","",""
+"","26222","creates a new item of type Secure note","","Mon Mar 03 15:24:08 CET 2025","passed","Mon Mar 03 15:24:34 CET 2025","","Page elements test","",""
+"","28218","creates a new item of type Identity","","Mon Mar 03 15:23:40 CET 2025","passed","Mon Mar 03 15:24:08 CET 2025","","Page elements test","",""
+"","27145","creates a new item of type Card","","Mon Mar 03 15:23:12 CET 2025","passed","Mon Mar 03 15:23:40 CET 2025","","Page elements test","",""
+"","252","deletes all leaved items in trash","","Mon Mar 03 15:24:34 CET 2025","passed","Mon Mar 03 15:24:34 CET 2025","","Page elements test","",""

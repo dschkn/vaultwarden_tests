@@ -1,0 +1,4 @@
+{
+  "using": "css selector",
+  "value": "button span.tw-truncate*=\"Collection_1741528571590\""
+}

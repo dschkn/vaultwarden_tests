@@ -1,0 +1,8 @@
+{
+  "error": "no such element",
+  "message": "The element with the reference 10ea1095-62fc-44a0-b677-6137f56d73b4 is not known in the current browsing context",
+  "stacktrace": "RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5\nNoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:387:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:263:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:293:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:297:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:195:30\n",
+  "data": {
+    "elementId": "10ea1095-62fc-44a0-b677-6137f56d73b4"
+  }
+}
