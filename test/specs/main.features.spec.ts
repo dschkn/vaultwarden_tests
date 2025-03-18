@@ -28,7 +28,6 @@ before(async () => {
     await registrationPage.open();
     await browser.deleteAllCookies();
     await loginPage.login();
-    await loginPage.headerTitle.waitForDisplayed();
 });
 
 

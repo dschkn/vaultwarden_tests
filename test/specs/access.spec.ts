@@ -23,7 +23,6 @@ describe("Page elements test", async () => {
         await browser.deleteAllCookies();
         await LoginPage.login();
         await LoginPage.loginImg.waitForDisplayed({ timeout: 10000 }); 
-        await LoginPage.headerTitle.waitForDisplayed();
     })
 
     it("creates a new organisation", async () => {

@@ -2,14 +2,30 @@ import Page from "./page.ts";
 
 class Login extends Page {
   get logo() {
-    return $("img.logo.logo-themed");
+    return $("svg[version='1.1']");
   }
   get createAccountButton() {
-    return $('a[routerlink="/register"]');
+    return $("a[href='#/register']");
+
   }
   async open() {
-    await browser.url("https://vaulttest.badhouseplants.net/#/login");
+    await browser.url("https://vaulttest.ru.badhouseplants.net//#/login");
   }
+  async login() {
+    // Просто пропускаем выполнение
+    await $("input[id='bit-input-1']").waitForDisplayed();
+    await $("input[id='bit-input-1']").setValue("test_user@test.com");
+    await $("button[bitbutton][buttontype='primary']").isClickable();
+    await $("button[bitbutton][buttontype='primary']").click()
+    await $("input[id='bit-input-0']").waitForDisplayed();
+    await $("input[id='bit-input-0']").setValue("test_user_password")
+    await $("button[bitbutton][buttontype='primary'][bitformbutton][type='submit']").isClickable()
+    await $("button[bitbutton][buttontype='primary'][bitformbutton][type='submit']").click()
+}
+
+get loginImg(){
+  return $("svg[version='1.1']")
+}
   async waitForPageLoad() {
     await this.logo.waitForDisplayed({ timeout: 10000 });
     await this.createAccountButton.waitForDisplayed({ timeout: 10000 });
@@ -30,22 +46,23 @@ class Login extends Page {
     await this.nameInput.setValue(name);
   }
   get rememberEmailCheckbox() {
-    return $('input[type="checkbox"][formcontrolname="rememberEmail"]');
+    return $("input[formcontrolname='rememberEmail']");
   }
   get loginInputEmail() {
-    return $("#login_input_email");
+    return $("input[id='bit-input-8']");
+    
   }
   get continueButton() {
-    return $('button[type="button"][buttontype="primary"]');
+    return $('button[buttontype="primary"]');;
   }
   get masterPasswordLabel() {
     return $("bit-label=Master password");
 }
   get masterPasswordInput() {
-    return $("#login_input_master-password");
+    return $("input[formcontrolname='masterPassword']");
 }
   get loginWithMasterPasswordButton() {
-    return $('button[buttontype="primary"]');
+    return $("button[type='submit']");
   }
 }
 

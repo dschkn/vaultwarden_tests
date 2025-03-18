@@ -83,6 +83,5 @@ describe("Page elements test", () => {
     const currentUrl = await browser.getUrl();
     expect(currentUrl).to.include(`vault`);
     await LoginPage.navigationBar.waitForDisplayed({ timeout: 5000 });
-    await browser.pause(2000);
   });
 });

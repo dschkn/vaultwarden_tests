@@ -31,6 +31,28 @@ export const config: Options.Testrunner = {
   //
   specs: ["./test/specs/**/*.ts"],
   // Patterns to exclude.
+  suites: {
+    access: [
+      './test/specs/access.spec.ts'
+    ],
+    login: [
+      './test/specs/login.spec.ts'
+    ],
+    mainFeatures: [
+      './test/specs/main.features.spec.ts'
+    ],
+
+    register: [
+      './test/specs/register.spec.ts'
+    ],
+
+    sends: [
+      './test/specs/sends.spec.ts' 
+    ],
+    wrongPassword: [
+      './test/specs/wrong.password.spec.ts'
+    ],
+  },
   exclude: [
     // 'path/to/excluded/files'
   ],
@@ -58,7 +80,7 @@ export const config: Options.Testrunner = {
   //
   capabilities: [
     {
-      browserName: "chrome",
+      browserName: "firefox",
     },
   ],
 

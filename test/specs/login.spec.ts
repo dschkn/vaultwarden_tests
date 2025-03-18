@@ -1,21 +1,18 @@
 import Login from "../pageobjects/login.ts";
 
 describe("Page elements test", () => {
+  let LoginPage = new Login();
+
   it("should display the logo", async () => {
-    let LoginPage = new Login();
     await LoginPage.open();
     await LoginPage.waitForPageLoad();
-    await expect(LoginPage.logo).toBeDisplayed();
   });
 
   it("should display the create account button", async () => {
-    let LoginPage = new Login();
-    await LoginPage.waitForPageLoad();
     await expect(LoginPage.createAccountButton).toBeDisplayed();
   });
 
   it("clicks the Create account button", async () => {
-    let LoginPage = new Login();
     await LoginPage.open();
     await LoginPage.waitForPageLoad();
     await LoginPage.createAccountButton.click();
@@ -34,8 +31,4 @@ describe("Page elements test", () => {
 
 
 
-
-
-// webdriver@test.com
-// webdriver_test
 

@@ -5,7 +5,7 @@ class Registration extends Page {
     return $("#register-form_input_email");
   }
   get createAccount() {
-    return $('a[routerlink="/register"]');
+    return $("a[href='#/register']");
   }
   get fillInForm(): ChainablePromiseElement {
     return $(
