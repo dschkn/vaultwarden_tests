@@ -1,41 +1,24 @@
-import Login from "../pageobjects/login.ts";
+import LoginPage from "../pageobjects/login.page.js";
 
-describe("Page elements test", () => {
-  it("should display the logo", async () => {
-    let LoginPage = new Login();
+describe("Login page", () => {
+  beforeEach(async () => {
     await LoginPage.open();
-    await LoginPage.waitForPageLoad();
+  });
+
+  it("displays the identity and entry points", async () => {
     await expect(LoginPage.logo).toBeDisplayed();
+    await expect(LoginPage.createAccountLink).toBeDisplayed();
+    await expect(LoginPage.emailInput).toBeDisplayed();
+    await expect(LoginPage.continueButton).toBeDisplayed();
   });
 
-  it("should display the create account button", async () => {
-    let LoginPage = new Login();
-    await LoginPage.waitForPageLoad();
-    await expect(LoginPage.createAccountButton).toBeDisplayed();
+  it("opens the registration page", async () => {
+    await LoginPage.createAccountLink.click();
+    await expect(browser).toHaveUrl(expect.stringContaining("#/register"));
   });
 
-  it("clicks the Create account button", async () => {
-    let LoginPage = new Login();
-    await LoginPage.open();
-    await LoginPage.waitForPageLoad();
-    await LoginPage.createAccountButton.click();
-    await browser.waitUntil(
-      async () => {
-        return (await browser.getUrl()).includes("/register");
-      },
-      {
-        timeout: 5000,
-        timeoutMsg: "URL did not change to /register within 5 seconds",
-      }
-    );
+  it("continues to the master-password step after entering an email", async () => {
+    await LoginPage.continueWithEmail("qa.user@example.test");
+    await expect(LoginPage.masterPasswordInput).toBeDisplayed();
   });
 });
-
-
-
-
-
-
-// webdriver@test.com
-// webdriver_test
-
