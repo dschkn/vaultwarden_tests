@@ -13,6 +13,10 @@ End-to-end UI checks for a Vaultwarden-compatible password-manager deployment.
 
 - Login page: key UI elements, navigation to registration, and transition to the master-password step.
 - Registration page: creating an account with generated test data and confirmation feedback.
+- Registration validation: invalid email addresses and mismatched passwords.
+- Vault: create and read back a login item.
+- Organizations: create an organization.
+- Sends: create and inspect a text send.
 
 ## Run locally
 
@@ -34,7 +38,18 @@ Run the end-to-end suite against an available deployment:
 TEST_BASE_URL=https://your-vaultwarden-instance.example npm run test:e2e
 ```
 
-`TEST_BASE_URL` must point to a test-only instance. The suite creates a new account on every registration run.
+`TEST_BASE_URL` must point to a test-only instance. The registration scenario creates a new account on every run.
+
+Authenticated scenarios also require a disposable account:
+
+```bash
+TEST_BASE_URL=https://your-vaultwarden-instance.example \
+TEST_EMAIL=qa@example.test \
+TEST_PASSWORD='your-test-password' \
+npm run test:e2e
+```
+
+Never use a personal vault or production credentials for this suite.
 
 ## Structure
 

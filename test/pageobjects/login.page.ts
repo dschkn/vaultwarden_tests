@@ -29,6 +29,10 @@ class LoginPage extends Page {
     return $('button[type="submit"][buttontype="primary"]');
   }
 
+  get vaultNavigation(): ChainablePromiseElement {
+    return $('a[aria-label="Password Manager"], div[title="Vaults"]');
+  }
+
   async open(): Promise<void> {
     await super.open("/#/login");
     await this.logo.waitForDisplayed();
@@ -38,6 +42,14 @@ class LoginPage extends Page {
     await this.emailInput.setValue(email);
     await this.continueButton.click();
     await this.masterPasswordInput.waitForDisplayed();
+  }
+
+  async login(email: string, password: string): Promise<void> {
+    await this.open();
+    await this.continueWithEmail(email);
+    await this.masterPasswordInput.setValue(password);
+    await this.submitButton.click();
+    await this.vaultNavigation.waitForDisplayed();
   }
 }
 
