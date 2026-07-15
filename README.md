@@ -60,6 +60,32 @@ test/
 wdio.conf.ts       test-runner configuration
 ```
 
+## Run through Selenoid
+
+Selenoid runs browser sessions inside Docker containers and exposes its dashboard on `http://localhost:8080`.
+
+```bash
+docker pull selenoid/vnc:chrome_128.0
+docker compose -f docker-compose.selenoid.yml up -d
+```
+
+Confirm that Selenoid is available:
+
+```bash
+curl http://localhost:4444/status
+```
+
+Then run the suite through the remote browser:
+
+```bash
+TEST_BASE_URL=https://your-vaultwarden-instance.example \
+TEST_EMAIL=qa@example.test \
+TEST_PASSWORD='your-test-password' \
+npm run test:selenoid
+```
+
+Use `SELENOID_HOST`, `SELENOID_PORT`, `SELENOID_BROWSER`, and `SELENOID_BROWSER_VERSION` to point the runner at a remote Selenoid host or a different configured browser image.
+
 ## Notes
 
 The public practice environment originally used by this project is no longer available. The test target is therefore supplied through `TEST_BASE_URL`, rather than hard-coded in the test code.

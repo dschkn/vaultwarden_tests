@@ -1,0 +1,44 @@
+import type { Options } from "@wdio/types";
+
+const browserName = process.env.SELENOID_BROWSER ?? "chrome";
+const browserVersion = process.env.SELENOID_BROWSER_VERSION ?? "128.0";
+
+const selenoidCapabilities: WebdriverIO.Capabilities = {
+  browserName,
+  browserVersion,
+  "selenoid:options": {
+    enableVNC: true,
+    enableVideo: false,
+    name: "vaultwarden-e2e",
+    sessionTimeout: "3m",
+  },
+};
+
+export const config: Options.Testrunner = {
+  runner: "local",
+  hostname: process.env.SELENOID_HOST ?? "localhost",
+  port: Number(process.env.SELENOID_PORT ?? 4444),
+  path: "/wd/hub",
+  protocol: "http",
+  specs: ["./test/specs/**/*.spec.ts"],
+  maxInstances: 1,
+  capabilities: [selenoidCapabilities],
+  baseUrl: process.env.TEST_BASE_URL ?? "http://localhost:8080",
+  logLevel: "warn",
+  waitforTimeout: 10_000,
+  connectionRetryTimeout: 120_000,
+  connectionRetryCount: 2,
+  framework: "mocha",
+  reporters: ["spec"],
+  mochaOpts: {
+    ui: "bdd",
+    timeout: 60_000,
+  },
+  autoCompileOpts: {
+    autoCompile: true,
+    tsNodeOpts: {
+      project: "./tsconfig.json",
+      transpileOnly: true,
+    },
+  },
+};

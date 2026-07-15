@@ -25,6 +25,6 @@
     },
     "include": [
         "test",
-        "wdio.conf.ts"
+        "wdio*.conf.ts"
     ]
 }
