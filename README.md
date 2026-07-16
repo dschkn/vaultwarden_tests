@@ -18,6 +18,12 @@ End-to-end UI checks for a Vaultwarden-compatible password-manager deployment.
 - Organizations: create an organization.
 - Sends: create and inspect a text send.
 
+The suite is intentionally split by risk and prerequisites:
+
+- **Smoke** — login UI and registration validation; does not need credentials or create data.
+- **Registration** — creates a disposable account.
+- **Authenticated** — creates and validates vault data, organizations, and sends using a disposable account.
+
 ## Run locally
 
 Install dependencies:
@@ -51,12 +57,36 @@ npm run test:e2e
 
 Never use a personal vault or production credentials for this suite.
 
+For a quick, no-credential smoke check:
+
+```bash
+TEST_BASE_URL=https://your-vaultwarden-instance.example npm run test:smoke
+```
+
+Run only the scenarios that create a registration account:
+
+```bash
+TEST_BASE_URL=https://your-vaultwarden-instance.example npm run test:registration
+```
+
+Run only the authenticated scenarios:
+
+```bash
+TEST_BASE_URL=https://your-vaultwarden-instance.example \
+TEST_EMAIL=qa@example.test \
+TEST_PASSWORD='your-test-password' \
+npm run test:authenticated
+```
+
+Copy `.env.example` to a local `.env` file as a reference for the required values. The file is ignored by Git. Screenshots from failed browser tests are stored locally in `reports/screenshots/`.
+
 ## Structure
 
 ```text
 test/
   pageobjects/     page actions and selectors
-  specs/           independent user-facing scenarios
+  specs/           independent user-facing scenarios, grouped into suites
+  support/         environment validation, generated data, reusable UI waits
 wdio.conf.ts       test-runner configuration
 ```
 

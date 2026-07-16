@@ -10,6 +10,7 @@ describe("Login page", () => {
     await expect(LoginPage.createAccountLink).toBeDisplayed();
     await expect(LoginPage.emailInput).toBeDisplayed();
     await expect(LoginPage.continueButton).toBeDisplayed();
+    await expect(LoginPage.emailInput).toHaveAttribute("type", "email");
   });
 
   it("opens the registration page", async () => {
