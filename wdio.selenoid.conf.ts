@@ -28,6 +28,7 @@ export const config: Options.Testrunner = {
       "./test/specs/main-features.spec.ts",
       "./test/specs/organization-access.spec.ts",
       "./test/specs/sends.spec.ts",
+      "./test/specs/vault-lifecycle.spec.ts",
     ],
   },
   maxInstances: 1,

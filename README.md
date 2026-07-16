@@ -15,6 +15,7 @@ End-to-end UI checks for a Vaultwarden-compatible password-manager deployment.
 - Registration page: creating an account with generated test data and confirmation feedback.
 - Registration validation: invalid email addresses and mismatched passwords.
 - Vault: create and read back a login item.
+- Vault lifecycle: create, search, read, and delete a secure note in one self-cleaning scenario.
 - Organizations: create an organization.
 - Sends: create and inspect a text send.
 
@@ -56,6 +57,7 @@ npm run test:e2e
 ```
 
 Never use a personal vault or production credentials for this suite.
+The authenticated item-lifecycle test removes the data it created even when an assertion fails.
 
 For a quick, no-credential smoke check:
 

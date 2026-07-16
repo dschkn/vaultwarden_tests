@@ -9,6 +9,11 @@ export type LoginItem = {
   notes: string;
 };
 
+export type SecureNote = {
+  name: string;
+  notes: string;
+};
+
 class VaultPage extends Page {
   get newItemDropdown(): ChainablePromiseElement {
     return $("#newItemDropdown");
@@ -46,8 +51,16 @@ class VaultPage extends Page {
     return $('button[type="submit"]');
   }
 
+  get cancelButton(): ChainablePromiseElement {
+    return $('button[title="Cancel"]');
+  }
+
   get toast(): ChainablePromiseElement {
     return $("#toast-container");
+  }
+
+  get searchInput(): ChainablePromiseElement {
+    return $('input[placeholder*="Search"]');
   }
 
   itemByName(name: string): ChainablePromiseElement {
@@ -73,6 +86,43 @@ class VaultPage extends Page {
   async openItem(name: string): Promise<void> {
     await clickWhenReady(this.itemByName(name));
     await this.nameInput.waitForDisplayed();
+  }
+
+  async createSecureNote(note: SecureNote): Promise<void> {
+    await this.startNewItem();
+    await this.itemType.selectByVisibleText("Secure Note");
+    await this.nameInput.setValue(note.name);
+    await this.notesInput.setValue(note.notes);
+    await clickWhenReady(this.saveButton);
+  }
+
+  async search(name: string): Promise<void> {
+    await this.searchInput.waitForDisplayed();
+    await this.searchInput.clearValue();
+    await this.searchInput.setValue(name);
+    await this.itemByName(name).waitForDisplayed();
+  }
+
+  async clearSearch(): Promise<void> {
+    await this.searchInput.clearValue();
+  }
+
+  async closeItem(): Promise<void> {
+    if (await this.cancelButton.isExisting()) {
+      await clickWhenReady(this.cancelButton);
+    }
+  }
+
+  async deleteItem(name: string): Promise<void> {
+    const row = $(`//tr[.//button[@title="Edit item - ${name}"]]`);
+    const optionsButton = row.$('button[title="Options"]');
+    await clickWhenReady(optionsButton);
+
+    const deleteButton = $("span=Delete");
+    await clickWhenReady(deleteButton);
+
+    const confirmButton = $('button[type="submit"][buttontype="primary"]');
+    await clickWhenReady(confirmButton);
   }
 }
 
