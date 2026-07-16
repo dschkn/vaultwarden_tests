@@ -33,6 +33,10 @@ class LoginPage extends Page {
     return $('a[aria-label="Password Manager"], div[title="Vaults"]');
   }
 
+  get toastContainer(): ChainablePromiseElement {
+    return $("#toast-container");
+  }
+
   async open(): Promise<void> {
     await super.open("/#/login");
     await this.logo.waitForDisplayed();
@@ -50,6 +54,11 @@ class LoginPage extends Page {
     await this.masterPasswordInput.setValue(password);
     await this.submitButton.click();
     await this.vaultNavigation.waitForDisplayed();
+  }
+
+  async submitPassword(password: string): Promise<void> {
+    await this.masterPasswordInput.setValue(password);
+    await this.submitButton.click();
   }
 }
 

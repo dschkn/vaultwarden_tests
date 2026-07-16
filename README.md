@@ -12,6 +12,7 @@ End-to-end UI checks for a Vaultwarden-compatible password-manager deployment.
 ## Coverage
 
 - Login page: key UI elements, navigation to registration, and transition to the master-password step.
+- Authentication validation: malformed email handling and an invalid master-password rejection.
 - Registration page: creating an account with generated test data and confirmation feedback.
 - Registration validation: invalid email addresses and mismatched passwords.
 - Vault: create and read back a login item.

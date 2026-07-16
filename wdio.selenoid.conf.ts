@@ -22,10 +22,15 @@ export const config: Options.Testrunner = {
   protocol: "http",
   specs: ["./test/specs/**/*.spec.ts"],
   suites: {
-    smoke: ["./test/specs/login.spec.ts", "./test/specs/registration-validation.spec.ts"],
+    smoke: [
+      "./test/specs/login.spec.ts",
+      "./test/specs/login-validation.spec.ts",
+      "./test/specs/registration-validation.spec.ts",
+    ],
     registration: ["./test/specs/registration.spec.ts"],
     authenticated: [
       "./test/specs/main-features.spec.ts",
+      "./test/specs/authentication-errors.spec.ts",
       "./test/specs/organization-access.spec.ts",
       "./test/specs/sends.spec.ts",
       "./test/specs/vault-lifecycle.spec.ts",
