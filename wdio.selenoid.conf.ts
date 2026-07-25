@@ -34,6 +34,7 @@ export const config: Options.Testrunner = {
       "./test/specs/organization-access.spec.ts",
       "./test/specs/sends.spec.ts",
       "./test/specs/vault-lifecycle.spec.ts",
+      "./test/specs/login-item-fields.spec.ts",
     ],
   },
   maxInstances: 1,

@@ -22,4 +22,4 @@ services:
       - --selenoid-uri
       - http://selenoid:4444
     ports:
-      - "8080:8080"
+      - "8081:8080"

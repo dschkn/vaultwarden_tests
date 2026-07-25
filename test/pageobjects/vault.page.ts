@@ -7,6 +7,11 @@ export type LoginItem = {
   password: string;
   uri: string;
   notes: string;
+  totp?: string;
+  customField?: {
+    name: string;
+    value: string;
+  };
 };
 
 export type SecureNote = {
@@ -47,6 +52,22 @@ class VaultPage extends Page {
     return $("#notes");
   }
 
+  get totpInput(): ChainablePromiseElement {
+    return $("#loginTotp");
+  }
+
+  get addCustomFieldLink(): ChainablePromiseElement {
+    return $("#newField");
+  }
+
+  get customFieldNameInput(): ChainablePromiseElement {
+    return $("#fieldName0");
+  }
+
+  get customFieldValueInput(): ChainablePromiseElement {
+    return $("#fieldValue0");
+  }
+
   get saveButton(): ChainablePromiseElement {
     return $('button[type="submit"]');
   }
@@ -80,6 +101,14 @@ class VaultPage extends Page {
     await this.passwordInput.setValue(item.password);
     await this.uriInput.setValue(item.uri);
     await this.notesInput.setValue(item.notes);
+    if (item.totp) {
+      await this.totpInput.setValue(item.totp);
+    }
+    if (item.customField) {
+      await clickWhenReady(this.addCustomFieldLink);
+      await this.customFieldNameInput.setValue(item.customField.name);
+      await this.customFieldValueInput.setValue(item.customField.value);
+    }
     await clickWhenReady(this.saveButton);
   }
 
@@ -123,6 +152,10 @@ class VaultPage extends Page {
 
     const confirmButton = $('button[type="submit"][buttontype="primary"]');
     await clickWhenReady(confirmButton);
+
+    await browser.waitUntil(async () => !(await this.itemByName(name).isExisting()), {
+      timeoutMsg: `Expected item "${name}" to disappear after deletion.`,
+    });
   }
 }
 

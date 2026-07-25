@@ -3,6 +3,7 @@
   "type": "module",
   "devDependencies": {
     "@wdio/cli": "^8.39.0",
+    "wdio-chromedriver-service": "^8.1.1",
     "@wdio/local-runner": "^8.39.0",
     "@wdio/mocha-framework": "^8.39.0",
     "@wdio/spec-reporter": "^8.39.0",
@@ -16,6 +17,8 @@
     "test:registration": "wdio run ./wdio.conf.ts --suite registration",
     "test:authenticated": "wdio run ./wdio.conf.ts --suite authenticated",
     "test:selenoid": "wdio run ./wdio.selenoid.conf.ts",
-    "test:check": "tsc --noEmit"
+    "test:check": "tsc --noEmit",
+    "test:ci": "npm run test:check",
+    "test:local": "TEST_BASE_URL=http://localhost:8080 npm run test:smoke"
   }
 }

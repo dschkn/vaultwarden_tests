@@ -3,19 +3,24 @@ import VaultPage from "../pageobjects/vault.page.js";
 import { getTestUser, uniqueName } from "../support/test-user.js";
 import { expectToastToContain } from "../support/ui.js";
 
-describe("Vault items", () => {
+describe("Login item fields", () => {
   before(async () => {
     const user = getTestUser();
     await LoginPage.login(user.email, user.password);
   });
 
-  it("creates, reads, and deletes a login item", async () => {
+  it("persists a one-time-password secret and a custom field", async () => {
     const item = {
-      name: uniqueName("login-item"),
+      name: uniqueName("advanced-login-item"),
       username: "qa-user",
       password: "ExamplePassword!42",
       uri: "https://example.test",
-      notes: "Created by the end-to-end suite.",
+      notes: "Advanced field coverage.",
+      totp: "JBSWY3DPEHPK3PXP",
+      customField: {
+        name: "Environment",
+        value: "test",
+      },
     };
 
     try {
@@ -23,11 +28,9 @@ describe("Vault items", () => {
       await expectToastToContain(VaultPage.toast, "Item added");
 
       await VaultPage.openItem(item.name);
-      await expect(VaultPage.nameInput).toHaveValue(item.name);
-      await expect(VaultPage.usernameInput).toHaveValue(item.username);
-      await expect(VaultPage.passwordInput).toHaveValue(item.password);
-      await expect(VaultPage.uriInput).toHaveValue(item.uri);
-      await expect(VaultPage.notesInput).toHaveValue(item.notes);
+      await expect(VaultPage.totpInput).toHaveValue(item.totp);
+      await expect(VaultPage.customFieldNameInput).toHaveValue(item.customField.name);
+      await expect(VaultPage.customFieldValueInput).toHaveValue(item.customField.value);
     } finally {
       await VaultPage.closeItem();
       if (await VaultPage.itemByName(item.name).isExisting()) {

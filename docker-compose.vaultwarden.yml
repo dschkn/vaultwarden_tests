@@ -1,0 +1,18 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden-e2e-target
+    restart: unless-stopped
+    environment:
+      DOMAIN: http://localhost:8080
+      SIGNUPS_ALLOWED: "true"
+      SIGNUPS_VERIFY: "false"
+      INVITATIONS_ALLOWED: "false"
+      SHOW_PASSWORD_HINT: "false"
+    ports:
+      - "8080:80"
+    volumes:
+      - vaultwarden-e2e-data:/data
+
+volumes:
+  vaultwarden-e2e-data:

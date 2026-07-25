@@ -48,6 +48,12 @@ class LoginPage extends Page {
     await this.masterPasswordInput.waitForDisplayed();
   }
 
+  async setRememberEmail(enabled: boolean): Promise<void> {
+    if ((await this.rememberEmailCheckbox.isSelected()) !== enabled) {
+      await this.rememberEmailCheckbox.click();
+    }
+  }
+
   async login(email: string, password: string): Promise<void> {
     await this.open();
     await this.continueWithEmail(email);

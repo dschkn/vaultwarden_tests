@@ -22,4 +22,12 @@ describe("Login page", () => {
     await LoginPage.continueWithEmail("qa.user@example.test");
     await expect(LoginPage.masterPasswordInput).toBeDisplayed();
   });
+
+  it("allows the user to choose whether the email is remembered", async () => {
+    await LoginPage.setRememberEmail(true);
+    await expect(LoginPage.rememberEmailCheckbox).toBeSelected();
+
+    await LoginPage.setRememberEmail(false);
+    await expect(LoginPage.rememberEmailCheckbox).not.toBeSelected();
+  });
 });
